@@ -1,4 +1,4 @@
-package co.edu.javeriana.HealthEntityServer;
+package co.edu.javeriana.healthentityserver;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

@@ -1,12 +1,12 @@
-package co.edu.javeriana.HealthEntityServer;
+package co.edu.javeriana.healthentityserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class HealthEntityServerApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
