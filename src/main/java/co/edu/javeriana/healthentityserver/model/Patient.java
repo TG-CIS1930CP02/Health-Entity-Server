@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "patients")
+@Document(collection = "patient")
 public class Patient {
 	@Id
 	private String id;

@@ -11,7 +11,7 @@ import com.mongodb.lang.NonNull;
 import lombok.Data;
 
 @Data
-@Document(collection = "conditions")
+@Document(collection = "condition")
 public class Condition {
 	@Id
 	private String id;
