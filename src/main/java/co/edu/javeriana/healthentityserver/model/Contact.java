@@ -8,11 +8,11 @@ public class Contact {
 	private List<ContactPoint> telecom;
 	private Address address;
 	private String gender;
-	private Organization organization;
+	private String organization; // reference organization
 	private Period period;
 	
 	public Contact(CodeableConcept relationship, HumanName name, List<ContactPoint> telecom, Address address,
-			String gender, Organization organization, Period period) {
+			String gender, String organization, Period period) {
 		super();
 		this.relationship = relationship;
 		this.name = name;
@@ -63,11 +63,11 @@ public class Contact {
 		this.gender = gender;
 	}
 
-	public Organization getOrganization() {
+	public String getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(Organization organization) {
+	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
 

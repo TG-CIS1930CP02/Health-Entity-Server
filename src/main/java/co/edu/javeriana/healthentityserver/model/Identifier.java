@@ -8,10 +8,10 @@ public class Identifier {
 	private URI system;
 	private String value;
 	private Period period;
-	private Organization assigner;
+	private String assigner; // reference organization
 	
 	public Identifier(String use, CodeableConcept type, URI system, String value, Period period,
-			Organization assigner) {
+			String assigner) {
 		super();
 		this.use = use;
 		this.type = type;
@@ -61,11 +61,11 @@ public class Identifier {
 		this.period = period;
 	}
 
-	public Organization getAssigner() {
+	public String getAssigner() {
 		return assigner;
 	}
 
-	public void setAssigner(Organization assigner) {
+	public void setAssigner(String assigner) {
 		this.assigner = assigner;
 	}	
 }

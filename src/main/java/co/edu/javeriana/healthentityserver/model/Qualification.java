@@ -6,9 +6,9 @@ public class Qualification {
 	private List<Identifier> identifier;
 	private CodeableConcept code;
 	private Period period;
-	private Organization issuer;
+	private String issuer; // reference organization
 	
-	public Qualification(List<Identifier> identifier, CodeableConcept code, Period period, Organization issuer) {
+	public Qualification(List<Identifier> identifier, CodeableConcept code, Period period, String issuer) {
 		super();
 		this.identifier = identifier;
 		this.code = code;
@@ -40,11 +40,11 @@ public class Qualification {
 		this.period = period;
 	}
 
-	public Organization getIssuer() {
+	public String getIssuer() {
 		return issuer;
 	}
 
-	public void setIssuer(Organization issuer) {
+	public void setIssuer(String issuer) {
 		this.issuer = issuer;
 	}
 }

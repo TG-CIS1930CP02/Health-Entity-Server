@@ -29,14 +29,14 @@ public class Patient {
 	private List<Contact> contact;
 	private List<Communication> communication;
 	private List<Practitioner> practitioner; // should we use it to support? -> Reference(Organization | Practitioner | PractitionerRole)
-	private Organization organization;
+	private String organization; // reference organization
 	private List<Link> link;
 	
 	public Patient(String id, List<Identifier> identifier, boolean active, List<HumanName> name,
 			List<ContactPoint> telecom, String gender, Date birthDate, boolean deceasedBoolean, Date deceasedDateTime,
 			List<Address> address, CodeableConcept maritialStatus, boolean multipleBirthBoolean,
 			int multipleBirthInteger, List<Attachment> photo, List<Contact> contact, List<Communication> communication,
-			List<Practitioner> practitioner, Organization organization, List<Link> link) {
+			List<Practitioner> practitioner, String organization, List<Link> link) {
 		super();
 		this.id = id;
 		this.identifier = identifier;
@@ -195,11 +195,11 @@ public class Patient {
 		this.practitioner = practitioner;
 	}
 
-	public Organization getOrganization() {
+	public String getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(Organization organization) {
+	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
 
