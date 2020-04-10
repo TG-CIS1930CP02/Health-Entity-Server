@@ -35,6 +35,9 @@ public class MongoDBClient {
 	@Value("${mongodb.collection.practitioner}")
 	private String practitionerCollection;
 	
+	@Value("${mongodb.collection.allergyintolerance}")
+	private String allergyIntoleranceCollection;
+	
 	public MongoClient getMongoClient() {
 		return new MongoClient(new MongoClientURI(uri));
 	}
@@ -53,6 +56,10 @@ public class MongoDBClient {
 	
 	public MongoCollection<Document> getConditionCollection(){
 		return getDatabase().getCollection(conditionCollection);
+	}
+	
+	public MongoCollection<Document> getAllergyIntoleranceCollection(){
+		return getDatabase().getCollection(allergyIntoleranceCollection);
 	}
 	
 	public MongoCollection<Document> getDiagnosticReportCollection(){
