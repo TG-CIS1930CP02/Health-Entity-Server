@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,11 @@ import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
 @RestController
 public class ProcedureService {
 	@Autowired
-	MongoDBClient mongoDBClient;
+	private MongoDBClient mongoDBClient;
 	
 	@PostMapping("/procedure")
+	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
+			+ "hasAuthority(@serverIdentification.getRoleHealthEntity())")
 	public void createProcedure(@RequestBody String procedure) {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document procedureDocument = Document.parse(procedure);

@@ -25,6 +25,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public JWTAuthorizationFilter getJWTAuthorizationFilter() {
 		return new JWTAuthorizationFilter();
-	}
-	
+	}	
 }
