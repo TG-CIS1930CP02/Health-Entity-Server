@@ -1,5 +1,7 @@
 package co.edu.javeriana.healthentityserver.restservices;
 
+import java.util.UUID;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,10 @@ public class DiagnosticReportService {
 	
 	@PostMapping("/diagnostic_report")
 	public void createDiagnosticReport(@RequestBody String diagnosticReport) {
-		MongoCollection<Document> collection = mongoDBClient.getDiagnosticReportCollection();
+		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document diagnosticReportDocument = Document.parse(diagnosticReport);
+		String uuid = UUID.randomUUID().toString();	
+		diagnosticReportDocument.replace("id", uuid);
 		collection.insertOne(diagnosticReportDocument);
 	}
 }

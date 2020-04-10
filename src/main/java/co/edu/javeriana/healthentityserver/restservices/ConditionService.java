@@ -1,5 +1,7 @@
 package co.edu.javeriana.healthentityserver.restservices;
 
+import java.util.UUID;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,10 @@ public class ConditionService {
 	
 	@PostMapping("/condition")
 	public void createCondition(@RequestBody String condition) {
-		MongoCollection<Document> collection = mongoDBClient.getConditionCollection();
+		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document conditionDocument = Document.parse(condition);
+		String uuid = UUID.randomUUID().toString();	
+		conditionDocument.replace("id", uuid);
 		collection.insertOne(conditionDocument);
 	}
 }

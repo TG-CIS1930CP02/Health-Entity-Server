@@ -1,5 +1,7 @@
 package co.edu.javeriana.healthentityserver.restservices;
 
+import java.util.UUID;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,10 @@ public class ProcedureService {
 	
 	@PostMapping("/procedure")
 	public void createProcedure(@RequestBody String procedure) {
-		MongoCollection<Document> collection = mongoDBClient.getProcedureCollection();
+		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document procedureDocument = Document.parse(procedure);
+		String uuid = UUID.randomUUID().toString();	
+		procedureDocument.replace("id", uuid);
 		collection.insertOne(procedureDocument);
 	}
 }

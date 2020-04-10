@@ -1,5 +1,7 @@
 package co.edu.javeriana.healthentityserver.restservices;
 
+import java.util.UUID;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +16,11 @@ public class AllergyIntoleranceService {
 	MongoDBClient mongoDBClient;
 	
 	@PostMapping("/allergy-intollerance")
-	public void createAllergyIntolerance(@RequestBody String condition) {
-		MongoCollection<Document> collection = mongoDBClient.getConditionCollection();
-		Document conditionDocument = Document.parse(condition);
-		collection.insertOne(conditionDocument);
+	public void createAllergyIntolerance(@RequestBody String allergyIntolerance) {	
+		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
+		Document allergyIntoleranceDocument = Document.parse(allergyIntolerance);
+		String uuid = UUID.randomUUID().toString();	
+		allergyIntoleranceDocument.replace("id", uuid);
+		collection.insertOne(allergyIntoleranceDocument);
 	}
 }
