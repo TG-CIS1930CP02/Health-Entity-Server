@@ -20,7 +20,6 @@ import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
 import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
-@CrossOrigin("*")
 public class PatientService {
 	
 	@Autowired
