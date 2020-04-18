@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +20,14 @@ import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
 import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
+@CrossOrigin("*")
 public class PatientService {
 	
 	@Autowired
 	private MongoDBClient mongoDBClient;
 		
 	@PostMapping("/patient")
-	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATIVE_ASSISTANT') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
 			+ "hasAuthority(@serverIdentification.getRoleHealthEntity())")
 	public void createPatient(@RequestBody String patient, @RequestHeader("Authorization") String token) {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
