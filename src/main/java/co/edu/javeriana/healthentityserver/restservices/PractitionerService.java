@@ -20,7 +20,7 @@ public class PractitionerService {
 	private MongoDBClient mongoDBClient;
 	
 	@PostMapping("/practitioner")
-	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
 			+ "hasAuthority(@serverIdentification.getRoleHealthEntity())")
 	public void createPractitioner(@RequestBody String practitioner) {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
