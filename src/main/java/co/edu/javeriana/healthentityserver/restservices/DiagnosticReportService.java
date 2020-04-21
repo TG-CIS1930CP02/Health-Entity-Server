@@ -26,7 +26,10 @@ public class DiagnosticReportService {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document diagnosticReportDocument = Document.parse(diagnosticReport);
 		String uuid = UUID.randomUUID().toString();	
-		diagnosticReportDocument.replace("id", uuid);
+		if (diagnosticReportDocument.containsKey("id"))
+			diagnosticReportDocument.replace("id", uuid);
+		else
+			diagnosticReportDocument.put("id", uuid);
 		collection.insertOne(diagnosticReportDocument);
 	}
 }

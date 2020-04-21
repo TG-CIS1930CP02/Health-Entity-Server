@@ -26,7 +26,10 @@ public class ObservationService {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document observationDocument = Document.parse(observation);
 		String uuid = UUID.randomUUID().toString();	
-		observationDocument.replace("id", uuid);
+		if (observationDocument.containsKey("id"))
+			observationDocument.replace("id", uuid);
+		else
+			observationDocument.put("id", uuid);
 		collection.insertOne(observationDocument);
 	}
 }

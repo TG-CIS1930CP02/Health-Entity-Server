@@ -26,7 +26,10 @@ public class PractitionerService {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document practitionerDocument = Document.parse(practitioner);
 		String uuid = UUID.randomUUID().toString();	
-		practitionerDocument.replace("id", uuid);
+		if (practitionerDocument.containsKey("id"))
+			practitionerDocument.replace("id", uuid);
+		else
+			practitionerDocument.put("id", uuid);
 		collection.insertOne(practitionerDocument);
 	}
 }

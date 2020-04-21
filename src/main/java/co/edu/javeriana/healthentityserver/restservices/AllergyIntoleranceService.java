@@ -26,6 +26,10 @@ public class AllergyIntoleranceService {
 		Document allergyIntoleranceDocument = Document.parse(allergyIntolerance);
 		String uuid = UUID.randomUUID().toString();	
 		allergyIntoleranceDocument.replace("id", uuid);
+		if (allergyIntoleranceDocument.containsKey("id"))
+			allergyIntoleranceDocument.replace("id", uuid);
+		else
+			allergyIntoleranceDocument.put("id", uuid);
 		collection.insertOne(allergyIntoleranceDocument);
 	}
 }

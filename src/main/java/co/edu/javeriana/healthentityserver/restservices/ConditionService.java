@@ -26,7 +26,10 @@ public class ConditionService {
 		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
 		Document conditionDocument = Document.parse(condition);
 		String uuid = UUID.randomUUID().toString();	
-		conditionDocument.replace("id", uuid);
+		if (conditionDocument.containsKey("id"))
+			conditionDocument.replace("id", uuid);
+		else
+			conditionDocument.put("id", uuid);
 		collection.insertOne(conditionDocument);
 	}
 }
