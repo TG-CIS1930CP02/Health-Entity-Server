@@ -26,11 +26,11 @@ public class ProcedureService {
 	@Autowired
 	private MongoDBClient mongoDBClient;
 	
-	@PostMapping("/procedure")
+	@PostMapping("{identificationType}/{identificationNumber}/procedure")
 	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
-			+ "hasAuthority(@serverIdentification.getRoleHealthEntity())")
-	public void createProcedure(@RequestBody String procedure) {
-		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
+			+ "hasAuthority(@serverIdentification.getRoleHealthEntity()) and hasAuthority('PATIENT_'+#identificationType+'_'+#identificationNumber)")
+	public ResponseEntity<Object> createProcedure(@PathVariable IdentificationTypeEnum identificationType, @PathVariable Long identificationNumber,@RequestBody String procedure) {
+		MongoCollection<Document> collection = mongoDBClient.getProcedureCollection();
 		Document procedureDocument = Document.parse(procedure);
 		String uuid = UUID.randomUUID().toString();	
 		if (procedureDocument.containsKey("id"))
@@ -38,6 +38,7 @@ public class ProcedureService {
 		else
 			procedureDocument.put("id", uuid);
 		collection.insertOne(procedureDocument);
+		return new ResponseEntity<Object>(null, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("{identificationType}/{identificationNumber}/procedure/{resourceId}")

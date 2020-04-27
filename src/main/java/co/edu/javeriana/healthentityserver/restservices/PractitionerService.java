@@ -23,7 +23,7 @@ public class PractitionerService {
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
 			+ "hasAuthority(@serverIdentification.getRoleHealthEntity())")
 	public void createPractitioner(@RequestBody String practitioner) {
-		MongoCollection<Document> collection = mongoDBClient.getPatientCollection();
+		MongoCollection<Document> collection = mongoDBClient.getPractitionerCollection();
 		Document practitionerDocument = Document.parse(practitioner);
 		String uuid = UUID.randomUUID().toString();	
 		if (practitionerDocument.containsKey("id"))
