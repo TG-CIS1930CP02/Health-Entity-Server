@@ -13,8 +13,22 @@ import co.edu.javeriana.healthentityserver.blockchain.*;
 @RestController
 public class BlockchainService {
 	
-	@GetMapping("/transactions/patient/{identicationType}/{identificationNumber}")
+	@GetMapping("/transactions/patient/{identificationType}/{identificationNumber}")
 	public List<Transaction> getTransactions (@PathVariable IdentificationTypeEnum identificationType, 
+			@PathVariable Long identificationNumber ){
+		//AQUI BUSQUEDA DE TRANSACCIONES
+		return new ArrayList<>();		
+	}
+	
+	@GetMapping("/transactions/medical-history/patient/{identificationType}/{identificationNumber}")
+	public List<Transaction> getMedicalRecords (@PathVariable IdentificationTypeEnum identificationType, 
+			@PathVariable Long identificationNumber ){
+		//AQUI BUSQUEDA DE TRANSACCIONES
+		return new ArrayList<>();		
+	}
+	
+	@GetMapping("/transactions/emergency-medical-history/patient/{identificationType}/{identificationNumber}")
+	public List<Transaction> getEmergencyMedicalHistory (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 		//AQUI BUSQUEDA DE TRANSACCIONES
 		return new ArrayList<>();		
