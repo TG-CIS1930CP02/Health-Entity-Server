@@ -1,5 +1,6 @@
 package co.edu.javeriana.healthentityserver.restservices;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.bson.Document;
@@ -17,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
+import co.edu.javeriana.healthentityserver.blockchain.Transaction;
 import co.edu.javeriana.healthentityserver.enums.IdentificationTypeEnum;
+import co.edu.javeriana.healthentityserver.enums.OperationEnum;
+import co.edu.javeriana.healthentityserver.enums.ResourceTypeEnum;
+import co.edu.javeriana.healthentityserver.enums.RoleEnum;
 import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
 
 @RestController
@@ -37,6 +42,25 @@ public class AllergyIntoleranceService {
 		else
 			allergyIntoleranceDocument.put("id", uuid);
 		collection.insertOne(allergyIntoleranceDocument);
+		
+		Transaction mTransaction = new Transaction();
+		// mTransaction.setInstitution(institution);
+		Document recorder, patient;
+		recorder = (Document) allergyIntoleranceDocument.get("recorder");
+		patient = (Document) allergyIntoleranceDocument.get("patient");
+		mTransaction.setSenderRole(RoleEnum.ROLE_DOCTOR);
+		mTransaction.setSender(recorder.getString("type") + "_" + recorder.getString("id"));
+		mTransaction.setRecipientRole(RoleEnum.ROLE_PATIENT);
+		mTransaction.setRecipient(patient.getString("type") + "_" + patient.getString("id"));
+		
+		// mTransaction.setSender(sender);
+		System.out.println(allergyIntoleranceDocument.toString());
+		
+		mTransaction.setOperation(OperationEnum.ADD);
+		mTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		mTransaction.setResourceIntegrity( Integer.toString(allergyIntoleranceDocument.hashCode()) );
+		mTransaction.setResourceType(ResourceTypeEnum.AllergyIntolerance);
+		
 		return new ResponseEntity<Object>(null, HttpStatus.CREATED);
 	}
 	

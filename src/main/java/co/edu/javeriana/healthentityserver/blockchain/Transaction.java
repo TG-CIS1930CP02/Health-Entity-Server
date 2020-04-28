@@ -79,6 +79,15 @@ public class Transaction {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+	@Override
+	public String toString() {
+		return "Transaction [institution=" + institution + ", operation=" + operation + ", recipient=" + recipient
+				+ ", recipientRole=" + recipientRole + ", resourceIntegrity=" + resourceIntegrity + ", resourcePath="
+				+ resourcePath + ", resourceType=" + resourceType + ", sender=" + sender + ", senderRole=" + senderRole
+				+ ", timestamp=" + timestamp + "]";
+	}
+	
+	
 	
 }
 
