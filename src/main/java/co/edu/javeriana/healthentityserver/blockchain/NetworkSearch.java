@@ -66,9 +66,9 @@ public class NetworkSearch {
 		            //Create transaction
 		            Transaction mTransaction = new Transaction();
 		    		mTransaction.setInstitution(jsonObj.get("institution").toString());
-		    		mTransaction.setSenderRole(Enum.valueOf(RoleEnum.class, jsonObj.get("sender_role").toString()));
+		    		mTransaction.setSenderRole( jsonObj.get("sender_role").toString());
 		    		mTransaction.setSender(jsonObj.get("sender").toString());
-		    		mTransaction.setRecipientRole(Enum.valueOf(RoleEnum.class, jsonObj.get("recipient_role").toString()));
+		    		mTransaction.setRecipientRole(jsonObj.get("recipient_role").toString());
 		    		mTransaction.setRecipient(jsonObj.get("recipient").toString());	
 		    		mTransaction.setOperation(Enum.valueOf(OperationEnum.class, jsonObj.get("operation").toString()));
 		    		mTransaction.setTimestamp(new Timestamp(  Long.parseLong(jsonObj.get("timestamp").toString())  ));
