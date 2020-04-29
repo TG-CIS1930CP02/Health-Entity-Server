@@ -11,19 +11,19 @@ public class Transaction {
 	private String institution;
 	private OperationEnum operation;
 	private String recipient;
-	private RoleEnum recipient_role;
+	private String recipient_role;
 	private String resource_integrity;
 	private String resource_path;
 	private ResourceTypeEnum source_type;
 	private String sender;
-	private RoleEnum sender_role;
+	private String sender_role;
 	private Timestamp timestamp;
 	
 	
 	
-	public Transaction(String institution, OperationEnum operation, String recipient, RoleEnum recipientRole,
+	public Transaction(String institution, OperationEnum operation, String recipient, String recipientRole,
 			String resourceIntegrity, String resourcePath, ResourceTypeEnum resourceType, String sender,
-			RoleEnum senderRole, Timestamp timestamp) {
+			String senderRole, Timestamp timestamp) {
 		super();
 		this.institution = institution;
 		this.operation = operation;
@@ -59,10 +59,10 @@ public class Transaction {
 	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
-	public RoleEnum getRecipient_role() {
+	public String getRecipient_role() {
 		return recipient_role;
 	}
-	public void setRecipientRole(RoleEnum recipientRole) {
+	public void setRecipientRole(String recipientRole) {
 		this.recipient_role = recipientRole;
 	}
 	public String getResource_integrity() {
@@ -89,10 +89,10 @@ public class Transaction {
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
-	public RoleEnum getSender_role() {
+	public String getSender_role() {
 		return sender_role;
 	}
-	public void setSenderRole(RoleEnum senderRole) {
+	public void setSenderRole(String senderRole) {
 		this.sender_role = senderRole;
 	}
 	public Timestamp getTimestamp() {
