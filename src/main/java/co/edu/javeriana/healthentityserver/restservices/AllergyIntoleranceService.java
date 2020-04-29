@@ -18,17 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
+import co.edu.javeriana.healthentityserver.blockchain.NetworkTransaction;
 import co.edu.javeriana.healthentityserver.blockchain.Transaction;
 import co.edu.javeriana.healthentityserver.enums.IdentificationTypeEnum;
 import co.edu.javeriana.healthentityserver.enums.OperationEnum;
 import co.edu.javeriana.healthentityserver.enums.ResourceTypeEnum;
 import co.edu.javeriana.healthentityserver.enums.RoleEnum;
 import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
+import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
 public class AllergyIntoleranceService {
 	@Autowired
 	private MongoDBClient mongoDBClient;
+	@Autowired
+	private ServerIdentification serverIdentification;
 	
 	@PostMapping("{identificationType}/{identificationNumber}/allergy-intolerance")
 	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
@@ -44,23 +48,29 @@ public class AllergyIntoleranceService {
 		collection.insertOne(allergyIntoleranceDocument);
 		
 		Transaction mTransaction = new Transaction();
-		// mTransaction.setInstitution(institution);
+		mTransaction.setInstitution(serverIdentification.getRoleHealthEntity());
 		Document recorder, patient;
 		recorder = (Document) allergyIntoleranceDocument.get("recorder");
 		patient = (Document) allergyIntoleranceDocument.get("patient");
 		mTransaction.setSenderRole(RoleEnum.ROLE_DOCTOR);
-		mTransaction.setSender(recorder.getString("type") + "_" + recorder.getString("id"));
+		mTransaction.setSender(recorder.getString("type") + "_" + recorder.getInteger("id").toString() );
 		mTransaction.setRecipientRole(RoleEnum.ROLE_PATIENT);
-		mTransaction.setRecipient(patient.getString("type") + "_" + patient.getString("id"));
-		
-		// mTransaction.setSender(sender);
-		System.out.println(allergyIntoleranceDocument.toString());
-		
+		mTransaction.setRecipient(patient.getString("type") + "_" + patient.getInteger("id").toString());	
 		mTransaction.setOperation(OperationEnum.ADD);
 		mTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		mTransaction.setResourceIntegrity( Integer.toString(allergyIntoleranceDocument.hashCode()) );
 		mTransaction.setResourceType(ResourceTypeEnum.AllergyIntolerance);
+		String idType, idNumber, resourceId;
+		idType = patient.getString("type"); idNumber = patient.getInteger("id").toString(); 
+		resourceId = allergyIntoleranceDocument.getString("id");
+		mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/" + resourceId);
 		
+		NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
+		
+		//Create async query or sync on thread that
+		
+		
+		System.out.println(allergyIntoleranceDocument.toString());
 		return new ResponseEntity<Object>(null, HttpStatus.CREATED);
 	}
 	
@@ -74,6 +84,9 @@ public class AllergyIntoleranceService {
 				identificationType.toString()), Filters.eq("identifier.id", identificationNumber))).first();
 		if(allergyIntolerance != null) {
 			allergyIntolerance.remove("_id");
+			
+			
+			
 			return new ResponseEntity<>(allergyIntolerance, HttpStatus.OK);
 		}
 		else {

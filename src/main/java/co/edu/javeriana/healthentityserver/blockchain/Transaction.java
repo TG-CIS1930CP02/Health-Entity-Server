@@ -11,13 +11,35 @@ public class Transaction {
 	private String institution;
 	private OperationEnum operation;
 	private String recipient;
-	private RoleEnum recipientRole;
-	private String resourceIntegrity;
-	private String resourcePath;
-	private ResourceTypeEnum resourceType;
+	private RoleEnum recipient_role;
+	private String resource_integrity;
+	private String resource_path;
+	private ResourceTypeEnum source_type;
 	private String sender;
-	private RoleEnum senderRole;
+	private RoleEnum sender_role;
 	private Timestamp timestamp;
+	
+	
+	
+	public Transaction(String institution, OperationEnum operation, String recipient, RoleEnum recipientRole,
+			String resourceIntegrity, String resourcePath, ResourceTypeEnum resourceType, String sender,
+			RoleEnum senderRole, Timestamp timestamp) {
+		super();
+		this.institution = institution;
+		this.operation = operation;
+		this.recipient = recipient;
+		this.recipient_role = recipientRole;
+		this.resource_integrity = resourceIntegrity;
+		this.resource_path = resourcePath;
+		this.source_type = resourceType;
+		this.sender = sender;
+		this.sender_role = senderRole;
+		this.timestamp = timestamp;
+	}
+	
+	public Transaction() {
+		super();
+	}
 	
 	public String getInstitution() {
 		return institution;
@@ -37,29 +59,29 @@ public class Transaction {
 	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
-	public RoleEnum getRecipientRole() {
-		return recipientRole;
+	public RoleEnum getRecipient_role() {
+		return recipient_role;
 	}
 	public void setRecipientRole(RoleEnum recipientRole) {
-		this.recipientRole = recipientRole;
+		this.recipient_role = recipientRole;
 	}
-	public String getResourceIntegrity() {
-		return resourceIntegrity;
+	public String getResource_integrity() {
+		return resource_integrity;
 	}
 	public void setResourceIntegrity(String resourceIntegrity) {
-		this.resourceIntegrity = resourceIntegrity;
+		this.resource_integrity = resourceIntegrity;
 	}
-	public String getResourcePath() {
-		return resourcePath;
+	public String getResource_path() {
+		return resource_path;
 	}
 	public void setResourcePath(String resourcePath) {
-		this.resourcePath = resourcePath;
+		this.resource_path = resourcePath;
 	}
-	public ResourceTypeEnum getResourceType() {
-		return resourceType;
+	public ResourceTypeEnum getResource_type() {
+		return source_type;
 	}
 	public void setResourceType(ResourceTypeEnum resourceType) {
-		this.resourceType = resourceType;
+		this.source_type = resourceType;
 	}
 	public String getSender() {
 		return sender;
@@ -67,11 +89,11 @@ public class Transaction {
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
-	public RoleEnum getSenderRole() {
-		return senderRole;
+	public RoleEnum getSender_role() {
+		return sender_role;
 	}
 	public void setSenderRole(RoleEnum senderRole) {
-		this.senderRole = senderRole;
+		this.sender_role = senderRole;
 	}
 	public Timestamp getTimestamp() {
 		return timestamp;
@@ -82,8 +104,8 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction [institution=" + institution + ", operation=" + operation + ", recipient=" + recipient
-				+ ", recipientRole=" + recipientRole + ", resourceIntegrity=" + resourceIntegrity + ", resourcePath="
-				+ resourcePath + ", resourceType=" + resourceType + ", sender=" + sender + ", senderRole=" + senderRole
+				+ ", recipientRole=" + recipient_role + ", resourceIntegrity=" + resource_integrity + ", resourcePath="
+				+ resource_path + ", resourceType=" + source_type + ", sender=" + sender + ", senderRole=" + sender_role
 				+ ", timestamp=" + timestamp + "]";
 	}
 	

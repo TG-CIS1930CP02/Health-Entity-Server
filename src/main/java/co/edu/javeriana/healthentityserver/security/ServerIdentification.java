@@ -16,6 +16,20 @@ public class ServerIdentification {
 	
 	@Value("${server.port}")
 	private String serverPort;
+	
+	@Value("${bcserver.address}")
+	private String bcserverAddress;
+	
+	@Value("${bcserver.port}")
+	private String bcserverPort;
+	
+	public String getBcserverAddress() {
+		return bcserverAddress;
+	}
+	
+	public String getBcserverPort() {
+		return bcserverPort;
+	}
 
 	public String getRoleHealthEntity() {
 		return roleHealthEntity;
@@ -35,5 +49,9 @@ public class ServerIdentification {
 
 	public String getServerUrl() {
 		return serverProtocol + "://" + serverAddress + ":" + serverPort + "/";
+	}
+	
+	public String getBcserverUrl() {
+		return "http://" + bcserverAddress + ":" + bcserverPort + "/";
 	}
 }
