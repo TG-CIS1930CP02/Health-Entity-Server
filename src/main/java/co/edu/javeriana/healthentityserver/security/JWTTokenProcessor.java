@@ -13,13 +13,7 @@ import org.springframework.stereotype.Component;
 public class JWTTokenProcessor {
 	
 	public List<String> getAuthorities(String token){
-		List<String> parts = new ArrayList<String>();
-		StringTokenizer stok = new StringTokenizer(token, ".");
-		while (stok.hasMoreTokens()){
-			parts.add(stok.nextToken());
-		}
-		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
-		JSONObject payloadObject = new JSONObject(payload);
+		JSONObject payloadObject = getPayLoad(token);
 		JSONArray arr = payloadObject.getJSONArray("authorities");
 		List<String> list = new ArrayList<String>();
 		for(int i = 0; i < arr.length(); i++){
@@ -29,36 +23,28 @@ public class JWTTokenProcessor {
 	}
 	
 	public String getAuthenticationMode(String token){
-		List<String> parts = new ArrayList<String>();
-		StringTokenizer stok = new StringTokenizer(token, ".");
-		while (stok.hasMoreTokens()){
-			parts.add(stok.nextToken());
-		}
-		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
-		JSONObject payloadObject = new JSONObject(payload);
+		JSONObject payloadObject = getPayLoad(token);
 		return payloadObject.get("authenticationMode").toString();	
 	}
 	
 	public String getLoginTime(String token){
-		List<String> parts = new ArrayList<String>();
-		StringTokenizer stok = new StringTokenizer(token, ".");
-		while (stok.hasMoreTokens()){
-			parts.add(stok.nextToken());
-		}
-		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
-		JSONObject payloadObject = new JSONObject(payload);
+		JSONObject payloadObject = getPayLoad(token);
 		return payloadObject.get("iat").toString();	
 	}
 	
 	public String getInformationFromToken(String token, String parameter){
+		JSONObject payloadObject = getPayLoad(token);
+		return payloadObject.get(parameter).toString();	
+	}
+	
+	private JSONObject getPayLoad(String token) {
 		List<String> parts = new ArrayList<String>();
 		StringTokenizer stok = new StringTokenizer(token, ".");
 		while (stok.hasMoreTokens()){
 			parts.add(stok.nextToken());
 		}
 		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
-		JSONObject payloadObject = new JSONObject(payload);
-		return payloadObject.get(parameter).toString();	
+		return new JSONObject(payload);
 	}
 	
 }
