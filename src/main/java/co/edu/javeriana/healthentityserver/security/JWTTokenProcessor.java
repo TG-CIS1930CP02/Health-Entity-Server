@@ -48,6 +48,17 @@ public class JWTTokenProcessor {
 		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
 		JSONObject payloadObject = new JSONObject(payload);
 		return payloadObject.get("iat").toString();	
-	} 
+	}
+	
+	public String getInformationFromToken(String token, String parameter){
+		List<String> parts = new ArrayList<String>();
+		StringTokenizer stok = new StringTokenizer(token, ".");
+		while (stok.hasMoreTokens()){
+			parts.add(stok.nextToken());
+		}
+		String payload = new String(Base64.getDecoder().decode(parts.get(1)));
+		JSONObject payloadObject = new JSONObject(payload);
+		return payloadObject.get(parameter).toString();	
+	}
 	
 }
