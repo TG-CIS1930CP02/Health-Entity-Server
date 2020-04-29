@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class JWTTokenProcessor {
 	
-	public List<String> getAuthorities(String token){
+	public String getAuthorities(String token){
 		JSONObject payloadObject = getPayLoad(token);
 		JSONArray arr = payloadObject.getJSONArray("authorities");
-		List<String> list = new ArrayList<String>();
+		String list = "";
 		for(int i = 0; i < arr.length(); i++){
-		    list.add(arr.getJSONObject(i).toString());
+		    list+=arr.getString(i);
+		    if(i!=arr.length()-1)
+		    	list+=",";
 		}
 		return list;
 	}

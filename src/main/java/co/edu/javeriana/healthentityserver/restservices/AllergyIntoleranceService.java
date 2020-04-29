@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.bson.Document;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
 import co.edu.javeriana.healthentityserver.blockchain.NetworkTransaction;
+import co.edu.javeriana.healthentityserver.blockchain.Sha256;
 import co.edu.javeriana.healthentityserver.blockchain.Transaction;
 import co.edu.javeriana.healthentityserver.enums.IdentificationTypeEnum;
 import co.edu.javeriana.healthentityserver.enums.OperationEnum;
 import co.edu.javeriana.healthentityserver.enums.ResourceTypeEnum;
 import co.edu.javeriana.healthentityserver.enums.RoleEnum;
 import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
+import co.edu.javeriana.healthentityserver.security.JWTTokenProcessor;
 import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
@@ -33,6 +36,8 @@ public class AllergyIntoleranceService {
 	private MongoDBClient mongoDBClient;
 	@Autowired
 	private ServerIdentification serverIdentification;
+	@Autowired
+	private JWTTokenProcessor jwtTokenProcessor;
 	
 	@PostMapping("{identificationType}/{identificationNumber}/allergy-intolerance")
 	@PreAuthorize("hasRole('ROLE_DOCTOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "
@@ -48,29 +53,30 @@ public class AllergyIntoleranceService {
 		collection.insertOne(allergyIntoleranceDocument);
 		
 		Transaction mTransaction = new Transaction();
-		mTransaction.setInstitution(serverIdentification.getRoleHealthEntity());
+		mTransaction.setInstitution(Integer.toString(serverIdentification.getHealthEntityId()));
 		Document recorder, patient;
 		recorder = (Document) allergyIntoleranceDocument.get("recorder");
 		patient = (Document) allergyIntoleranceDocument.get("patient");
-		mTransaction.setSenderRole(RoleEnum.ROLE_DOCTOR);
+		
+		mTransaction.setSenderRole(RoleEnum.ROLE_DOCTOR.toString());
 		mTransaction.setSender(recorder.getString("type") + "_" + recorder.getInteger("id").toString() );
-		mTransaction.setRecipientRole(RoleEnum.ROLE_PATIENT);
+		mTransaction.setRecipientRole(RoleEnum.ROLE_PATIENT.toString());
 		mTransaction.setRecipient(patient.getString("type") + "_" + patient.getInteger("id").toString());	
 		mTransaction.setOperation(OperationEnum.ADD);
 		mTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		mTransaction.setResourceIntegrity( Integer.toString(allergyIntoleranceDocument.hashCode()) );
 		mTransaction.setResourceType(ResourceTypeEnum.AllergyIntolerance);
 		String idType, idNumber, resourceId;
 		idType = patient.getString("type"); idNumber = patient.getInteger("id").toString(); 
 		resourceId = allergyIntoleranceDocument.getString("id");
-		mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/" + resourceId);
+		mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/allergy-intolerance/" + resourceId);
+		
+		if(allergyIntoleranceDocument.containsKey("_id"))
+			allergyIntoleranceDocument.remove("_id");
+		String hashedDocument = Sha256.generateSha256(allergyIntoleranceDocument.toJson());
+		mTransaction.setResourceIntegrity(hashedDocument);
 		
 		NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 		
-		//Create async query or sync on thread that
-		
-		
-		System.out.println(allergyIntoleranceDocument.toString());
 		return new ResponseEntity<Object>(null, HttpStatus.CREATED);
 	}
 	
@@ -80,12 +86,32 @@ public class AllergyIntoleranceService {
 	public ResponseEntity<Object> getAllergyIntolerance(@PathVariable IdentificationTypeEnum identificationType, @PathVariable Long identificationNumber,
 			@PathVariable String resourceId, @RequestHeader("Authorization") String token) {
 		MongoCollection<Document> collection = mongoDBClient.getAllergyIntoleranceCollection();
-		Document allergyIntolerance = collection.find(Filters.and(Filters.eq("id", resourceId), Filters.eq("identifier.type", 
-				identificationType.toString()), Filters.eq("identifier.id", identificationNumber))).first();
+		Document allergyIntolerance = collection.find(Filters.and(Filters.eq("id", resourceId), Filters.eq("patient.type", 
+				identificationType.toString()), Filters.eq("patient.id", identificationNumber))).first();
 		if(allergyIntolerance != null) {
-			allergyIntolerance.remove("_id");
 			
-			
+			if(allergyIntolerance.containsKey("_id"))
+				allergyIntolerance.remove("_id");
+			Transaction mTransaction = new Transaction();
+			mTransaction.setInstitution(Integer.toString(serverIdentification.getHealthEntityId()));
+			Document recorder, patient;
+			recorder = (Document) allergyIntolerance.get("recorder");
+			patient = (Document) allergyIntolerance.get("patient");
+			mTransaction.setSenderRole(jwtTokenProcessor.getAuthorities(token));
+			mTransaction.setSender(recorder.getString("type") + "_" + recorder.getInteger("id").toString() );
+			mTransaction.setRecipientRole(RoleEnum.ROLE_PATIENT.toString());
+			mTransaction.setRecipient(patient.getString("type") + "_" + patient.getInteger("id").toString());	
+			mTransaction.setOperation(OperationEnum.READ);
+			mTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
+			mTransaction.setResourceType(ResourceTypeEnum.AllergyIntolerance);
+			String idType, idNumber, mResourceId;
+			idType = patient.getString("type"); idNumber = patient.getInteger("id").toString(); 
+			mResourceId = allergyIntolerance.getString("id");
+			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/allergy-intolerance/" + mResourceId);
+			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
+			String hashedDocument = Sha256.generateSha256(allergyIntolerance.toJson());
+			mTransaction.setResourceIntegrity(hashedDocument);
+			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			
 			return new ResponseEntity<>(allergyIntolerance, HttpStatus.OK);
 		}

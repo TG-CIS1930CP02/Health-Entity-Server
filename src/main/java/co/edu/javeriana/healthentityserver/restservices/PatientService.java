@@ -20,6 +20,7 @@ import com.mongodb.client.model.Filters;
 
 import co.edu.javeriana.healthentityserver.enums.IdentificationTypeEnum;
 import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
+import co.edu.javeriana.healthentityserver.security.JWTTokenProcessor;
 import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
@@ -27,6 +28,10 @@ public class PatientService {
 	
 	@Autowired
 	private MongoDBClient mongoDBClient;
+	@Autowired
+	private ServerIdentification serverIdentification;
+	@Autowired
+	private JWTTokenProcessor jwtTokenProcessor;
 		
 	@PostMapping("/patient")
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATIVE_ASSISTANT') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "

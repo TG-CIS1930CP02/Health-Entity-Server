@@ -13,11 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mongodb.client.MongoCollection;
 
 import co.edu.javeriana.healthentityserver.mongodb.MongoDBClient;
+import co.edu.javeriana.healthentityserver.security.JWTTokenProcessor;
+import co.edu.javeriana.healthentityserver.security.ServerIdentification;
 
 @RestController
 public class PractitionerService {
 	@Autowired
 	private MongoDBClient mongoDBClient;
+	@Autowired
+	private ServerIdentification serverIdentification;
+	@Autowired
+	private JWTTokenProcessor jwtTokenProcessor;
 	
 	@PostMapping("/practitioner")
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') and hasAuthority('PASSWORD_AND_FINGERPRINT_AUTHENTICATED_USER') and "

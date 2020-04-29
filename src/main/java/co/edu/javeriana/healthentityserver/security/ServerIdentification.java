@@ -23,6 +23,13 @@ public class ServerIdentification {
 	@Value("${bcserver.port}")
 	private String bcserverPort;
 	
+	@Value("${health.entity.id}")
+	private int healthEntityId;
+	
+	public int getHealthEntityId() {
+		return healthEntityId;
+	}
+	
 	public String getBcserverAddress() {
 		return bcserverAddress;
 	}
