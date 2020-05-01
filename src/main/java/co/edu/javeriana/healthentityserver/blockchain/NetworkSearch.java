@@ -79,9 +79,9 @@ public class NetworkSearch {
 		    		mTransaction.setRecipient(jsonObj.get("recipient").toString());	
 		    		mTransaction.setOperation(Enum.valueOf(OperationEnum.class, jsonObj.get("operation").toString()));
 		    		mTransaction.setTimestamp(new Timestamp(  Long.parseLong(jsonObj.get("timestamp").toString())  ));
-		    		mTransaction.setResourceIntegrity( jsonObj.get("institution").toString() );
-		    		mTransaction.setResourceType(Enum.valueOf(ResourceTypeEnum.class, jsonObj.get("resource_type").toString()));
-		    		mTransaction.setResourcePath(jsonObj.get("institution").toString());
+		    		mTransaction.setResourceIntegrity( jsonObj.get("resource_integrity").toString() );
+		    		mTransaction.setResourceType(ResourceTypeEnum.valueOf(jsonObj.getString("resource_type")));
+		    		mTransaction.setResourcePath(jsonObj.get("resource_path").toString());
 		    		
 		    		transactions.add(mTransaction);
 		    		
