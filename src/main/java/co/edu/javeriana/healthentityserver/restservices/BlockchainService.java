@@ -21,7 +21,7 @@ public class BlockchainService {
 	public List<Transaction> getTransactions (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 		
-		String path = String.format("search?search=Resources&recipient=%s", identificationNumber);
+		String path = String.format("search?search=Resources&recipient=%s", identificationType+ "_" + identificationNumber);
 
 		List<Transaction> response = NetworkSearch.sendSearch(path, serverIdentification.getBcserverUrl());
 		
@@ -32,7 +32,7 @@ public class BlockchainService {
 	public List<Transaction> getMedicalRecords (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 
-		String path = String.format("search?search=History&recipient=%s", identificationNumber);
+		String path = String.format("search?search=History&recipient=%s", identificationType+"_"+identificationNumber);
 
 		List<Transaction> response = NetworkSearch.sendSearch(path, serverIdentification.getBcserverUrl());
 
@@ -43,7 +43,7 @@ public class BlockchainService {
 	public List<Transaction> getEmergencyMedicalHistory (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 
-		String path = String.format("search?search=Emergency&recipient=%s", identificationNumber);
+		String path = String.format("search?search=Emergency&recipient=%s", identificationType+"_"+identificationNumber);
 
 		List<Transaction> response = NetworkSearch.sendSearch(path, serverIdentification.getBcserverUrl());
 		

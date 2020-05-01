@@ -55,7 +55,14 @@ public class NetworkSearch {
 				in.close();
 
 				
-				JSONArray jsonResponse = new JSONArray(response.toString());
+				JSONArray jsonResponse = null;
+				try {
+					jsonResponse = new JSONArray(response.toString());
+				} catch(Exception e){
+					if(jsonResponse == null) {
+						return transactions; 
+					}
+				}
 				
 				
 		        for (int i = 0; i < jsonResponse.length(); i++){
