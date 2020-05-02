@@ -66,7 +66,7 @@ public class ProcedureService {
 		// TODO : should check that the hashedDocument equals the hash when added in blockchain
 		if(procedureDocument.containsKey("_id"))
 			procedureDocument.remove("_id");
-		String hashedDocument = Sha256.generateSha256(procedureDocument.toJson());;
+		String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(procedureDocument));
 		mTransaction.setResourceIntegrity(hashedDocument);
 		mTransaction.setResourceType(ResourceTypeEnum.Procedure);
 		String idType, idNumber, mResourceId;
@@ -108,7 +108,7 @@ public class ProcedureService {
 			mResourceId = procedure.getString("id");
 			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/procedure/" + mResourceId);
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
-			String hashedDocument = Sha256.generateSha256(procedure.toJson());
+			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(procedure));
 			mTransaction.setResourceIntegrity(hashedDocument);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			

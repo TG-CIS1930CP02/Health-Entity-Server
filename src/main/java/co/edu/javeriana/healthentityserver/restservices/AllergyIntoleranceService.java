@@ -72,7 +72,7 @@ public class AllergyIntoleranceService {
 		
 		if(allergyIntoleranceDocument.containsKey("_id"))
 			allergyIntoleranceDocument.remove("_id");
-		String hashedDocument = Sha256.generateSha256(allergyIntoleranceDocument.toJson());
+		String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(allergyIntoleranceDocument));
 		mTransaction.setResourceIntegrity(hashedDocument);
 		
 		NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
@@ -109,7 +109,7 @@ public class AllergyIntoleranceService {
 			mResourceId = allergyIntolerance.getString("id");
 			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/allergy-intolerance/" + mResourceId);
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
-			String hashedDocument = Sha256.generateSha256(allergyIntolerance.toJson());
+			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(allergyIntolerance));
 			mTransaction.setResourceIntegrity(hashedDocument);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			

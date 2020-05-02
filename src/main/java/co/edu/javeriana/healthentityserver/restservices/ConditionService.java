@@ -66,7 +66,7 @@ public class ConditionService {
 		// TODO : should check that the hashedDocument equals the hash when added in blockchain
 		if(conditionDocument.containsKey("_id"))
 			conditionDocument.remove("_id");
-		String hashedDocument = Sha256.generateSha256(conditionDocument.toJson());;
+		String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(conditionDocument));;
 		mTransaction.setResourceIntegrity(hashedDocument);
 		mTransaction.setResourceType(ResourceTypeEnum.Condition);
 		String idType, idNumber, mResourceId;
@@ -108,7 +108,7 @@ public class ConditionService {
 			mResourceId = condition.getString("id");
 			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/condition/" + mResourceId);
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
-			String hashedDocument = Sha256.generateSha256(condition.toJson());
+			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(condition));
 			mTransaction.setResourceIntegrity(hashedDocument);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			

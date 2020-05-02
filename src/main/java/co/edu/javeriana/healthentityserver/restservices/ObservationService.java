@@ -66,7 +66,7 @@ public class ObservationService {
 		// TODO : should check that the hashedDocument equals the hash when added in blockchain
 		if(observationDocument.containsKey("_id"))
 			observationDocument.remove("_id");
-		String hashedDocument = Sha256.generateSha256(observationDocument.toJson());;
+		String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(observationDocument));;
 		mTransaction.setResourceIntegrity(hashedDocument);
 		mTransaction.setResourceType(ResourceTypeEnum.Observation);
 		String idType, idNumber, mResourceId;
@@ -108,7 +108,7 @@ public class ObservationService {
 			mResourceId = observation.getString("id");
 			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/observation/" + mResourceId);
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
-			String hashedDocument = Sha256.generateSha256(observation.toJson());
+			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(observation));
 			mTransaction.setResourceIntegrity(hashedDocument);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			

@@ -66,7 +66,7 @@ public class DiagnosticReportService {
 		// TODO : should check that the hashedDocument equals the hash when added in blockchain
 		if(diagnosticReportDocument.containsKey("_id"))
 			diagnosticReportDocument.remove("_id");
-		String hashedDocument = Sha256.generateSha256(diagnosticReportDocument.toJson());;
+		String hashedDocument = Sha256.generateSha256( Sha256.DocumentToJsonString(diagnosticReportDocument));;
 		mTransaction.setResourceIntegrity(hashedDocument);
 		mTransaction.setResourceType(ResourceTypeEnum.DiagnosticReport);
 		String idType, idNumber, mResourceId;
@@ -108,7 +108,7 @@ public class DiagnosticReportService {
 			mResourceId = diagnosticReport.getString("id");
 			mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/diagnostic-report/" + mResourceId);
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
-			String hashedDocument = Sha256.generateSha256(diagnosticReport.toJson());
+			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(diagnosticReport));
 			mTransaction.setResourceIntegrity(hashedDocument);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			
