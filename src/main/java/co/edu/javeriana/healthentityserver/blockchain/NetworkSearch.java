@@ -73,15 +73,15 @@ public class NetworkSearch {
 		            //Create transaction
 		            Transaction mTransaction = new Transaction();
 		    		mTransaction.setInstitution(jsonObj.get("institution").toString());
-		    		mTransaction.setSenderRole( jsonObj.get("sender_role").toString());
+		    		mTransaction.setSenderRole( jsonObj.get("senderRole").toString());
 		    		mTransaction.setSender(jsonObj.get("sender").toString());
-		    		mTransaction.setRecipientRole(jsonObj.get("recipient_role").toString());
+		    		mTransaction.setRecipientRole(jsonObj.get("recipientRole").toString());
 		    		mTransaction.setRecipient(jsonObj.get("recipient").toString());	
 		    		mTransaction.setOperation(Enum.valueOf(OperationEnum.class, jsonObj.get("operation").toString()));
 		    		mTransaction.setTimestamp(new Timestamp(  Long.parseLong(jsonObj.get("timestamp").toString())  ));
-		    		mTransaction.setResourceIntegrity( jsonObj.get("resource_integrity").toString() );
-		    		mTransaction.setResourceType(ResourceTypeEnum.valueOf(jsonObj.getString("resource_type")));
-		    		mTransaction.setResourcePath(jsonObj.get("resource_path").toString());
+		    		mTransaction.setResourceIntegrity( jsonObj.get("resourceIntegrity").toString() );
+		    		mTransaction.setResourceType(ResourceTypeEnum.valueOf(jsonObj.getString("resourceType")));
+		    		mTransaction.setResourcePath(jsonObj.get("resourcePath").toString());
 		    		
 		    		transactions.add(mTransaction);
 		    		
