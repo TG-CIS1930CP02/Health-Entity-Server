@@ -17,7 +17,7 @@ public class BlockchainService {
 	@Autowired
 	private ServerIdentification serverIdentification;
 	
-	@GetMapping("/transactions/patient/{identificationType}/{identificationNumber}")
+	@GetMapping("/transactions/medical-history/patient/{identificationType}/{identificationNumber}")
 	public List<Transaction> getTransactions (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 		
@@ -28,7 +28,7 @@ public class BlockchainService {
 		return response;		
 	}
 	
-	@GetMapping("/transactions/medical-history/patient/{identificationType}/{identificationNumber}")
+	@GetMapping("/transactions/patient/{identificationType}/{identificationNumber}")
 	public List<Transaction> getMedicalRecords (@PathVariable IdentificationTypeEnum identificationType, 
 			@PathVariable Long identificationNumber ){
 
