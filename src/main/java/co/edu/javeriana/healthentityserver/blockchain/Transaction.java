@@ -14,16 +14,16 @@ public class Transaction {
 	private String recipientRole;
 	private String resourceIntegrity;
 	private String resourcePath;
-	private ResourceTypeEnum sourceType;
+	private ResourceTypeEnum resourceType;
 	private String sender;
 	private String senderRole;
 	private Timestamp timestamp;
-	
+	private String resourceId;
 	
 	
 	public Transaction(String institution, OperationEnum operation, String recipient, String recipientRole,
 			String resourceIntegrity, String resourcePath, ResourceTypeEnum resourceType, String sender,
-			String senderRole, Timestamp timestamp) {
+			String senderRole, Timestamp timestamp, String resourceId) {
 		super();
 		this.institution = institution;
 		this.operation = operation;
@@ -31,10 +31,19 @@ public class Transaction {
 		this.recipientRole = recipientRole;
 		this.resourceIntegrity = resourceIntegrity;
 		this.resourcePath = resourcePath;
-		this.sourceType = resourceType;
+		this.resourceType = resourceType;
 		this.sender = sender;
 		this.senderRole = senderRole;
 		this.timestamp = timestamp;
+		this.resourceId = resourceId;
+	}
+	
+	public String getResourceId() {
+		return resourceId;
+	}
+	
+	public void setResourceId(String resourceId) {
+		this.resourceId = resourceId;
 	}
 	
 	public Transaction() {
@@ -78,10 +87,10 @@ public class Transaction {
 		this.resourcePath = resourcePath;
 	}
 	public ResourceTypeEnum getResourceType() {
-		return sourceType;
+		return resourceType;
 	}
 	public void setResourceType(ResourceTypeEnum resourceType) {
-		this.sourceType = resourceType;
+		this.resourceType = resourceType;
 	}
 	public String getSender() {
 		return sender;
@@ -101,11 +110,12 @@ public class Transaction {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+	
 	@Override
 	public String toString() {
 		return "Transaction [institution=" + institution + ", operation=" + operation + ", recipient=" + recipient
 				+ ", recipientRole=" + recipientRole + ", resourceIntegrity=" + resourceIntegrity + ", resourcePath="
-				+ resourcePath + ", resourceType=" + sourceType + ", sender=" + sender + ", senderRole=" + senderRole
+				+ resourcePath + ", resourceType=" + resourceType + ", sender=" + sender + ", senderRole=" + senderRole
 				+ ", timestamp=" + timestamp + "]";
 	}
 	

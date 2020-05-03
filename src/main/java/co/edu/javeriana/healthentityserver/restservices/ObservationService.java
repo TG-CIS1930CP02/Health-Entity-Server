@@ -73,6 +73,7 @@ public class ObservationService {
 		idType = patient.getString("type"); idNumber = patient.getInteger("id").toString(); 
 		mResourceId = observationDocument.getString("id");
 		mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/observation/" + mResourceId);
+		mTransaction.setResourceId(mResourceId);
 		
 		NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 		
@@ -110,6 +111,7 @@ public class ObservationService {
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
 			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(observation));
 			mTransaction.setResourceIntegrity(hashedDocument);
+			mTransaction.setResourceId(resourceId);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			
 			return new ResponseEntity<>(observation, HttpStatus.OK);

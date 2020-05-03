@@ -73,6 +73,7 @@ public class ProcedureService {
 		idType = patient.getString("type"); idNumber = patient.getInteger("id").toString(); 
 		mResourceId = procedureDocument.getString("id");
 		mTransaction.setResourcePath(serverIdentification.getServerUrl()+ idType + "/" + idNumber + "/procedure/" + mResourceId);
+		mTransaction.setResourceId(mResourceId);
 		
 		NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 		
@@ -110,6 +111,7 @@ public class ProcedureService {
 			// TODO : should check that the hashedDocument equals the hash when added in blockchain			
 			String hashedDocument = Sha256.generateSha256(Sha256.DocumentToJsonString(procedure));
 			mTransaction.setResourceIntegrity(hashedDocument);
+			mTransaction.setResourceId(resourceId);
 			NetworkTransaction.sendTransaction(mTransaction, serverIdentification.getBcserverUrl());
 			
 			return new ResponseEntity<>(procedure, HttpStatus.OK);
