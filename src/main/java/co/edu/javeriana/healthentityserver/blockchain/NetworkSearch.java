@@ -82,7 +82,7 @@ public class NetworkSearch {
 		    		mTransaction.setResourceIntegrity( jsonObj.get("resourceIntegrity").toString() );
 		    		mTransaction.setResourceType(ResourceTypeEnum.valueOf(jsonObj.getString("resourceType")));
 		    		mTransaction.setResourcePath(jsonObj.get("resourcePath").toString());
-		    		
+		    		mTransaction.setResourceId(jsonObj.getString("resourceId"));
 		    		transactions.add(mTransaction);
 		    		
 		        }
