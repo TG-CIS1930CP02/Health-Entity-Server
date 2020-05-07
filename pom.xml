@@ -11,7 +11,7 @@
 	<groupId>co.edu.javeriana</groupId>
 	<artifactId>Health-Entity-Server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Health-Entity-Server</name>
 	<description>Health Entity web server for blockchain based security model</description>
 

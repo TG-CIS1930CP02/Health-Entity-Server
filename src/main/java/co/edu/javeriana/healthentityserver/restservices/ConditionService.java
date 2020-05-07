@@ -81,8 +81,7 @@ public class ConditionService {
 	}
 	
 	@GetMapping("{identificationType}/{identificationNumber}/condition/{resourceId}")
-	@PreAuthorize("(hasRole('ROLE_DOCTOR') or hasRole('ROLE_NURSE') or hasRole('ROLE_PATIENT'))"
-			+ "and hasAuthority('PATIENT_'+#identificationType+'_'+#identificationNumber)")
+	@PreAuthorize("(hasRole('ROLE_DOCTOR') or hasRole('ROLE_NURSE')) or (hasRole('ROLE_PATIENT') and hasAuthority('PATIENT_'+#identificationType+'_'+#identificationNumber))")
 	public ResponseEntity<Object> getCondition(@PathVariable IdentificationTypeEnum identificationType, @PathVariable Long identificationNumber,
 			@PathVariable String resourceId, @RequestHeader("Authorization") String token) {
 		MongoCollection<Document> collection = mongoDBClient.getConditionCollection();
