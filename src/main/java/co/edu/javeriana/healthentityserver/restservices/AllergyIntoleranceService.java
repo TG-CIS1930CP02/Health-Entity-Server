@@ -82,8 +82,7 @@ public class AllergyIntoleranceService {
 	}
 	
 	@GetMapping("{identificationType}/{identificationNumber}/allergy-intolerance/{resourceId}")
-	@PreAuthorize("(hasRole('ROLE_DOCTOR') or hasRole('ROLE_NURSE') or hasRole('ROLE_PATIENT'))"
-			+ "and hasAuthority('PATIENT_'+#identificationType+'_'+#identificationNumber)")
+	@PreAuthorize("(hasRole('ROLE_DOCTOR') or hasRole('ROLE_NURSE')) or (hasRole('ROLE_PATIENT') and hasAuthority('PATIENT_'+#identificationType+'_'+#identificationNumber))")
 	public ResponseEntity<Object> getAllergyIntolerance(@PathVariable IdentificationTypeEnum identificationType, @PathVariable Long identificationNumber,
 			@PathVariable String resourceId, @RequestHeader("Authorization") String token) {
 		MongoCollection<Document> collection = mongoDBClient.getAllergyIntoleranceCollection();
